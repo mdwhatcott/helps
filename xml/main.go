@@ -6,18 +6,22 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 
 	"github.com/mdwhatcott/helps"
 )
 
 func main() {
+	log.SetFlags(log.Llongfile)
+
 	content, err := ioutil.ReadAll(os.Stdin)
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		log.Fatal(err)
 	}
-	fmt.Println(string(content))
-	// TODO: non-zero return code when the input isn't valid XML
-	fmt.Println(helps.FormatXML(content))
+	formatted, err := helps.FormatXML(content)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(string(formatted))
 }

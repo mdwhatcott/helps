@@ -8,13 +8,13 @@ import (
 	"io"
 )
 
-func FormatJSON(data []byte) string {
+func FormatJSON(data []byte) (string, error) {
 	var indent bytes.Buffer
 	err := json.Indent(&indent, data, "", "  ")
 	if err != nil {
-		return err.Error()
+		return "", err
 	}
-	return indent.String()
+	return indent.String(), nil
 }
 
 func DumpJSON(v interface{}) string {
@@ -27,26 +27,26 @@ func DumpJSON(v interface{}) string {
 }
 
 // https://stackoverflow.com/a/27141132/605022
-func FormatXML(data []byte) string {
+func FormatXML(data []byte) (string, error) {
 	if len(data) > 3 && DumpFMT(data[:3]) == DumpFMT(utf8ByteOrderMark) {
 		data = data[3:]
 	}
-	b := &bytes.Buffer{}
+	var buffer bytes.Buffer
 	decoder := xml.NewDecoder(bytes.NewReader(data))
-	encoder := xml.NewEncoder(b)
+	encoder := xml.NewEncoder(&buffer)
 	encoder.Indent("", "  ")
 	for {
 		token, err := decoder.Token()
 		if err == io.EOF {
 			encoder.Flush()
-			return b.String()
+			return buffer.String(), nil
 		}
 		if err != nil {
-			return err.Error()
+			return "", err
 		}
 		err = encoder.EncodeToken(token)
 		if err != nil {
-			return err.Error()
+			return "", err
 		}
 	}
 }
