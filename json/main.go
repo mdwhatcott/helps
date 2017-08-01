@@ -19,5 +19,6 @@ func main() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
+	// TODO: non-zero return code when the input isn't valid JSON
 	fmt.Println(helps.FormatJSON(content))
 }
