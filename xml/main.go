@@ -15,13 +15,11 @@ import (
 func main() {
 	log.SetFlags(log.Llongfile)
 
-	content, err := ioutil.ReadAll(os.Stdin)
-	if err != nil {
-		log.Fatal(err)
+	if input, err := ioutil.ReadAll(os.Stdin); err != nil {
+		log.Fatalf("Error reading from stdin: %s", err)
+	} else if formatted, err := helps.FormatXML(input); err != nil {
+		log.Fatalf("Error formatting XML: %s\n%s", err, string(input))
+	} else {
+		fmt.Println(string(formatted))
 	}
-	formatted, err := helps.FormatXML(content)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(string(formatted))
 }

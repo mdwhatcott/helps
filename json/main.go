@@ -17,13 +17,11 @@ import (
 func main() {
 	log.SetFlags(log.Llongfile)
 
-	content, err := ioutil.ReadAll(os.Stdin)
-	if err != nil {
-		log.Fatal(err)
+	if input, err := ioutil.ReadAll(os.Stdin); err != nil {
+		log.Fatalf("Error reading from stdin: %s", err)
+	} else if formatted, err := helps.FormatJSON(input); err != nil {
+		log.Fatalf("Error formatting JSON: %s\n%s", err, string(input))
+	} else {
+		fmt.Println(string(formatted))
 	}
-	formatted, err := helps.FormatJSON(content)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(string(formatted))
 }
