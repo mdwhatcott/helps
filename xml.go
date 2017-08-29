@@ -2,29 +2,9 @@ package helps
 
 import (
 	"bytes"
-	"encoding/json"
 	"encoding/xml"
-	"fmt"
 	"io"
 )
-
-func FormatJSON(data []byte) (string, error) {
-	var indent bytes.Buffer
-	err := json.Indent(&indent, data, "", "  ")
-	if err != nil {
-		return "", err
-	}
-	return indent.String(), nil
-}
-
-func DumpJSON(v interface{}) string {
-	b, err := json.MarshalIndent(v, "", "  ")
-	if err != nil {
-		return err.Error()
-	}
-
-	return string(b)
-}
 
 // https://stackoverflow.com/a/27141132/605022
 func FormatXML(data []byte) (string, error) {
@@ -60,8 +40,4 @@ func DumpXML(v interface{}) string {
 	}
 
 	return string(b)
-}
-
-func DumpFMT(v interface{}) string {
-	return fmt.Sprintf("%#v", v)
 }
