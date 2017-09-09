@@ -4,10 +4,19 @@ import (
 	"bytes"
 	"encoding/xml"
 	"io"
+	"log"
 )
 
+func FormatXML(data []byte) string {
+	formatted, err := FormatXMLSafe(data)
+	if err != nil {
+		log.Panic(err)
+	}
+	return formatted
+}
+
 // https://stackoverflow.com/a/27141132/605022
-func FormatXML(data []byte) (string, error) {
+func FormatXMLSafe(data []byte) (string, error) {
 	if len(data) > 3 && DumpFMT(data[:3]) == DumpFMT(utf8ByteOrderMark) {
 		data = data[3:]
 	}
@@ -34,10 +43,18 @@ func FormatXML(data []byte) (string, error) {
 var utf8ByteOrderMark = []byte{239, 187, 191}
 
 func DumpXML(v interface{}) string {
-	b, err := xml.MarshalIndent(v, "", "  ")
+	dump, err := DumpXMLSafe(v)
 	if err != nil {
-		return err.Error()
+		log.Panic(err)
+	}
+	return dump
+}
+
+func DumpXMLSafe(v interface{}) (string, error) {
+	dump, err := xml.MarshalIndent(v, "", "  ")
+	if err != nil {
+		return "", err
 	}
 
-	return string(b)
+	return string(dump), nil
 }

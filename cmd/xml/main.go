@@ -17,7 +17,7 @@ func main() {
 
 	if input, err := ioutil.ReadAll(os.Stdin); err != nil {
 		log.Fatalf("Error reading from stdin: %s", err)
-	} else if formatted, err := helps.FormatXML(input); err != nil {
+	} else if formatted, err := helps.FormatXMLSafe(input); err != nil {
 		log.Fatalf("Error formatting XML: %s\n%s", err, string(input))
 	} else {
 		fmt.Println(string(formatted))
