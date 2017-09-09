@@ -32,10 +32,10 @@ func DumpJSON(v interface{}) string {
 }
 
 func DumpJSONSafe(v interface{}) (string, error) {
-	b, err := json.MarshalIndent(v, "", "  ")
+	dump, err := json.MarshalIndent(v, "", "  ")
 	if err != nil {
 		return "", err
 	}
 
-	return string(b), nil
+	return string(dump), nil
 }
