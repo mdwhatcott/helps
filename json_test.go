@@ -1,17 +1,11 @@
 package helps
 
 import (
-	"io/ioutil"
-	"log"
 	"testing"
 
 	"github.com/smartystreets/assertions/should"
 	"github.com/smartystreets/gunit"
 )
-
-func init() {
-	log.SetOutput(ioutil.Discard)
-}
 
 func TestJSONFixture(t *testing.T) {
 	gunit.Run(new(JSONFixture), t)
