@@ -15,7 +15,7 @@ import (
 )
 
 func main() {
-	log.SetFlags(log.Llongfile)
+	log.SetFlags(log.Lshortfile)
 
 	if input, err := ioutil.ReadAll(os.Stdin); err != nil {
 		log.Fatalf("Error reading from stdin: %s", err)
