@@ -3,6 +3,7 @@ package measures
 import (
 	"bytes"
 	"testing"
+	"time"
 
 	"github.com/smartystreets/assertions/should"
 	"github.com/smartystreets/gunit"
@@ -17,10 +18,14 @@ type LengthFixture struct {
 }
 
 func (this *LengthFixture) Test() {
-	this.So(func() { Length(1) }, should.Panic)
+	this.So(Length(1), should.Equal, -1)
+	this.So(Length(struct{}{}), should.Equal, -1)
+	this.So(Length(time.Now()), should.Equal, -1)
 
 	var a [1]int
+	var b []int
 	this.So(Length(a), should.Equal, 1)
+	this.So(Length(b), should.Equal, 0)
 	this.So(Length(""), should.Equal, 0)
 	this.So(Length(make([]int, 0)), should.Equal, 0)
 	this.So(Length(make(chan int)), should.Equal, 0)
