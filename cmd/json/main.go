@@ -2,10 +2,11 @@
 // alias json='python -m json.tool'
 // Unlike python 2, this script handles unicode nicely.
 // In general, it adheres to the UNIX philosophy:
-// Simply pipe unformatted JSON data to the command and formatted JSON comes out.
+// Simply pipe JSON data to the command and formatted JSON comes out.
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -17,11 +18,20 @@ import (
 func main() {
 	log.SetFlags(log.Lshortfile)
 
-	if input, err := ioutil.ReadAll(os.Stdin); err != nil {
+	input, err := ioutil.ReadAll(os.Stdin)
+	if err != nil {
 		log.Fatalf("Error reading from stdin: %s", err)
-	} else if formatted, err := helps.FormatJSONSafe(input); err != nil {
-		log.Fatalf("Error formatting JSON: %s\n%s", err, string(input))
-	} else {
-		fmt.Println(string(formatted))
 	}
+
+	input = bytes.TrimSpace(input)
+	if len(input) == 0 {
+		return
+	}
+
+	formatted, err := helps.FormatJSONSafe(input)
+	if err != nil {
+		log.Fatalf("Error formatting JSON: %s\n%s", err, string(input))
+	}
+
+	fmt.Println(formatted)
 }
