@@ -2,10 +2,11 @@ package main
 
 import (
 	"crypto/sha512"
+	"os"
 
-	"github.com/mdwhatcott/helps/nix"
+	"github.com/mdwhatcott/helps/hashing"
 )
 
 func main() {
-	nix.Hash(sha512.New())
+	hashing.Hash(os.Stdin, sha512.New(), os.Stdout)
 }

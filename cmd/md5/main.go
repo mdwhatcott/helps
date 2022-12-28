@@ -2,21 +2,11 @@ package main
 
 import (
 	"crypto/md5"
-	"encoding/hex"
-	"io"
-	"log"
 	"os"
+
+	"github.com/mdwhatcott/helps/hashing"
 )
 
 func main() {
-	hasher := md5.New()
-	_, err := io.Copy(hasher, os.Stdin)
-	if err != nil {
-		log.Fatal(err)
-	}
-	encoder := hex.NewEncoder(os.Stdout)
-	_, err = encoder.Write(hasher.Sum(nil))
-	if err != nil {
-		log.Fatal(err)
-	}
+	hashing.Hash(os.Stdin, md5.New(), os.Stdout)
 }

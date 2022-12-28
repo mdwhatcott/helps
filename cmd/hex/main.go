@@ -2,13 +2,13 @@ package main
 
 import (
 	"encoding/hex"
-	"io/ioutil"
+	"io"
 	"log"
 	"os"
 )
 
 func main() {
-	all, err := ioutil.ReadAll(os.Stdin)
+	all, err := io.ReadAll(os.Stdin)
 	if err != nil {
 		log.Fatal(err)
 	}
