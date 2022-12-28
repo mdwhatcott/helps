@@ -6,7 +6,3 @@ test:
 
 install:
 	go install ./cmd/...
-
-docs:
-	go get -u github.com/robertkrimen/godocdown/godocdown
-	godocdown > README.md
